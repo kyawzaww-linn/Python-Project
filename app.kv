@@ -1,0 +1,75 @@
+# TODO: Create your Kivy layout in the kv language here
+<MainWidget>:
+    sort_spinner: sort_spinner
+    song_list_layout: song_list_layout
+    learned_label: learned_label
+    status_label: status_label
+    title_input: title_input
+    artist_input: artist_input
+    year_input: year_input
+    orientation: 'horizontal'
+
+    BoxLayout:
+        orientation: 'vertical'
+        size_hint_x: .3
+
+        Spinner:
+            id: sort_spinner
+            text: 'Sort by:'
+            values: ['Artist', 'Title', 'Year']
+            on_text: root.display_songs()
+
+        Label:
+            text: 'Add New Song...'
+
+        BoxLayout:
+            Label:
+                text: 'Title:'
+            TextInput:
+                id: title_input
+                multiline: False
+                on_text_validate: artist_input.focus = True
+
+        BoxLayout:
+            Label:
+                text: 'Artist:'
+            TextInput:
+                id: artist_input
+                multiline: False
+                on_text_validate: year_input.focus = True
+
+        BoxLayout:
+            Label:
+                text: 'Year:'
+            TextInput:
+                id: year_input
+                multiline: False
+                input_filter: 'int'
+                on_text_validate: root.add_song()
+
+        Button:
+            text: 'Add Song'
+            on_release: root.add_song()
+
+        Button:
+            text: 'Clear'
+            on_release: root.clear_fields()
+
+    BoxLayout:
+        orientation: 'vertical'
+        size_hint_x: .7
+
+        Label:
+            id: learned_label
+            size_hint_y: .1
+
+        ScrollView:
+            GridLayout:
+                id: song_list_layout
+                cols: 1
+                size_hint_y: None
+                height: self.minimum_height
+
+        Label:
+            id: status_label
+            size_hint_y: .1
